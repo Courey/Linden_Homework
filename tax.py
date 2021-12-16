@@ -1,41 +1,3 @@
-# Single filers
-  # 10% $0 to $9,950 10% of taxable income
-  # 12% $9,951 to $40,525 $995 plus 12% of the amount over $9,950
-  # 22% $40,526 to $86,375 $4,664 plus 22% of the amount over $40,525
-  # 24% $86,376 to $164,925 $14,751 plus 24% of the amount over $86,375
-  # 32% $164,926 to $209,425 $33,603 plus 32% of the amount over $164,925
-  # 35% $209,426 to $523,600 $47,843 plus 35% of the amount over $209,425
-  # 37% $523,601 or more $157,804.25 plus 37% of the amount over $523,600
-
-# Head of household
-  # 10% $0 to $14,200 10% of taxable income
-  # 12% $14,201 to $54,200 $1,420 plus 12% of the amount over $14,200
-  # 22% $54,201 to $86,350 $6,220 plus 22% of the amount over $54,200
-  # 24% $86,351 to $164,900 $13,293 plus 24% of the amount over $86,350
-  # 32% $164,901 to $209,400 $32,145 plus 32% of the amount over $164,900
-  # 35% $209,401 to $523,600 $46,385 plus 35% of the amount over $209,400
-  # 37% $523,601 or more $156,355 plus 37% of the amount over $523,600
-
-# Married, filing jointly
-  # 10% $0 to $19,900 10% of taxable income
-  # 12% $19,901 to $81,050 $1,990 plus 12% of the amount over $19,900
-  # 22% $81,051 to $172,750 $9,328 plus 22% of the amount over $81,050
-  # 24% $172,751 to $329,850 $29,502 plus 24% of the amount over $172,750
-  # 32% $329,851 to $418,850 $67,206 plus 32% of the amount over $329,850
-  # 35% $418,851 to $628,300 $95,686 plus 35% of the amount over $418,850
-  # 37% $628,301 or more $168,993.50 plus 37% of the amount over $628,300
-
-# Married, filing separately
-  # 10% $0 to $9,950 10% of taxable income
-  # 12% $9,951 to $40,525 $995 plus 12% of the amount over $9,950
-  # 22% $40,526 to $86,375 $4,664 plus 22% of the amount over $40,525
-  # 24% $86,376 to $164,925 $14,751 plus 24% of the amount over $86,375
-  # 32% $164,926 to $209,425 $33,603 plus 32% of the amount over $164,925
-  # 35% $209,426 to $314,150 $47,843 plus 35% of the amount over $209,425
-  # 37% $314,151 or more $84,496.75 plus 37% of the amount over $314,150
-
-# ^^^ pretend this stuff isn't up there ^^^
-
 #!/bin/env python3
 def yearly_income(income, status_number):
   income = int(income)
@@ -90,33 +52,19 @@ def yearly_income(income, status_number):
       result = ((income - 209400) * .35 + 46385)
     elif (523601 <= income):
       result = ((income - 523600) * .37 + 156355)
-  for x in range(0, 19):
+  for x in range(0, 21):
     print('')
   print('Here is what your income tax is:')
   print(result)
-  print('Please pay your taxes')
-  for x in range(0, 19):
-    print('')
   return result
 
+def confirm_comprehension(taxes, confirmation):
+  while confirmation == 'n':
+    print('You can go to the website https://www.1040paytax.com/ and pay ${placeholder} or you can call 888-877-0450 on your phone and pay there'.format(placeholder=taxes))
+    confirmation_input = input("Do you understand how to now? (y/n):").strip()
+    confirmation = confirm_comprehension(taxes, confirmation_input)
+  print('Great! Now go pay your taxes or the IRS will come for you.')
 
-# comment out both test sections to use the CLI
-# ______ this is fake testing ________
-# def test_single_bracket_1():
-#   status_number = 1
-#   income = 9950
-#   result = yearly_income(income, status_number)
-#   if result == 995.0:
-#     print("test_single_bracket_1 success!")
-#   else:
-#     print("test_single_bracket_1 failure")
-
-# # ______ tests to run ________________
-# test_single_bracket_1()
-
-
-# ________ comment out when runing tests. uncomment to use CLI __________
-# This gets the input from the terminal
 print('1: single')
 print('2: married filing jointly')
 print('3: married filing separate')
@@ -124,7 +72,9 @@ print('4: head of household')
 print('NO LETTERS')
 filing_status = input("Please enter number for filing status from the list above:").strip()
 income = input("Please input your yearly income here:").strip()
-yearly_income(income, filing_status)
+taxes = yearly_income(income, filing_status)
+confirmation_input = input("Do you understand how to pay your taxes? (y/n):").strip()
+confirmation = confirm_comprehension(taxes, confirmation_input)
 
 
 
